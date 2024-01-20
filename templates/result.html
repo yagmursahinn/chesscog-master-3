@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chess Recognition Result</title>
+</head>
+<body>
+    <h1>Chess Recognition Result</h1>
+
+    {% if error %}
+        <p>Error: {{ error }}</p>
+    {% else %}
+        <p>Position FEN: {{ fen }}</p>
+        <p>Time taken for corner detection: {{ times.corner_detection }}</p>
+        <p>Time taken for occupancy classification: {{ times.occupancy_classification }}</p>
+        <p>Time taken for piece classification: {{ times.piece_classification }}</p>
+        <p>Time taken for preparing results: {{ times.prepare_results }}</p>
+    {% endif %}
+</body>
+</html>
