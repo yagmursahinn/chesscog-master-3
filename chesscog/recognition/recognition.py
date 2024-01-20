@@ -75,31 +75,21 @@ class ChessRecognizer:
 
     @classmethod
     def _load_classifier(cls, path: Path):
-     models_folder = path.parent / "models"  # Assuming models is in the parent directory
-     print("Loading classifier from path:", models_folder)
-
-    # Find model files
-     model_files = list(models_folder.glob("*.pt"))
-     print("Found model files:", model_files)
-     if not model_files:
+       print(os.listdir('models/occupancy_classifier'))
+       print("Loading classifier from path:", path)
+       model_files = list(path.glob("*.pt"))
+       print("Found model files:", model_files)
+       if not model_files:
         raise FileNotFoundError("No model files found in the specified path.")
-
-    # Select the first model file (you may adjust this logic if needed)
-     model_file = next(iter(model_files))
-
-    # Find corresponding YAML file
-     cfg_file = models_folder / (model_file.stem + ".yaml")
-     print("Selected model file:", model_file)
-     print("Selected config file:", cfg_file)
-
-    # Load config and model
-     cfg = CN.load_yaml_with_base(cfg_file)
-     model = torch.load(model_file, map_location=DEVICE)
-     model = device(model)
-     model.eval()
-     return cfg, model
-
-
+       model_file = next(iter(model_files))
+       cfg_file = next(iter(path.glob("*.yaml")))
+       print("Selected model file:", model_file)
+       print("Selected config file:", cfg_file)
+       cfg = CN.load_yaml_with_base(cfg_file)
+       model = torch.load(model_file, map_location=DEVICE)
+       model = device(model)
+       model.eval()
+       return cfg, model
 
 
  
@@ -252,3 +242,4 @@ if __name__ == "__main__":
 
     main(setup=lambda: [ensure_model(show_size=True)
                         for ensure_model in (ensure_occupancy_classifier, ensure_piece_classifier)])
+
